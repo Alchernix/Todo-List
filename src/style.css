@@ -1,0 +1,101 @@
+body {
+    display: flex;
+    margin: 0;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+/* sidebar */
+
+.sidebar {
+    width: 200px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: whitesmoke;
+}
+
+.projects {
+    list-style-type: none;
+}
+
+.projects li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 50px;
+    border-top: 1px solid gray;
+}
+
+.project {
+    cursor: pointer;
+}
+
+.chosen {
+    background-color: #DCDCDC
+}
+
+/* todo list */
+
+.container {
+    box-sizing: border-box;
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.todo-list {
+    list-style-type: none;
+}
+
+.todo {
+    display: flex;
+    justify-content: space-around;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* todo add dialog */
+
+.dialog-container {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+/* todo datail dialog */
+
+.todo-detail-dialog {
+    width: 200px;
+}
+
+.todo-datail-dialog-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.todo-datail-container {
+    justify-content: space-between;
+    display: flex;
+}
+
+.todo-datail-property {
+    width: 100px;
+    font-weight: bold;
+}
+
+.todo-datail {
+    text-align: center;
+}
