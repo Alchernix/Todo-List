@@ -31,11 +31,10 @@ const projectTitleEl = document.querySelector("#project-title");
 // randering functions
 function displayTodo() {
     const project = getCurrentProject();
-    // console.log(project);
     projectTitleEl.textContent = project.title;
     loadTodo(project);
-    todoList.innerHTML = project.todos.map((todo, index) => `
-    <li class="todo" data-id="${index}">
+    todoList.innerHTML = project.todos.map((todo) => `
+    <li class="todo" data-id="${todo.id}">
         <input type="checkbox" class="todo-checkbox">
         <div class="todo-title">${todo.title}</div>
         <div class="duedate">${todo.dueDate}</div>
@@ -43,6 +42,11 @@ function displayTodo() {
         <i class="fa-solid fa-trash todo-delete-btn"></i>
     </li>
     `).join('');
+    if (project.title === "Home") {
+        addTodoBtn.classList.add("none");
+    } else {
+        addTodoBtn.classList.remove("none");
+    }
 }
 
 function displayProject() {
@@ -147,7 +151,8 @@ editTodoDialogForm.addEventListener("submit", (e) => {
     const description = document.querySelector("#edit-todo-description").value;
     const dueDate = document.querySelector("#edit-todo-duedate").value;
     const priority = document.querySelector("#edit-todo-priority").value;
-    const project = getCurrentProject();
+    //console.log(Todo.editingTodo.projectTitle)
+    const project = searchProject(Todo.editingTodo.projectTitle);
     editTodo(title, description, dueDate, priority, project);
     displayTodo();
     editTodoDialog.close();
@@ -206,12 +211,13 @@ editProjectDialogCancelBtn.addEventListener("click", () => {
 
 todoList.addEventListener("click", (e) => {
     const todoEl = e.target.closest(".todo");
-    const index = todoEl.dataset.id;
-    const project = getCurrentProject();
-    const todo = project.todos[index];
+    const id = todoEl.dataset.id;
+    const currentProject = getCurrentProject();
+    const todo = currentProject.todos.find((todo) => todo.id == id);
+    const project = currentProject.title === "Home" ? searchProject(todo.projectTitle) : currentProject;
 
     if (e.target.classList.contains("todo-delete-btn")) {
-        deleteTodo(index, getCurrentProject());
+        deleteTodo(id, project);
         displayTodo();
     } else if (e.target.classList.contains("todo-edit-btn")) {
         Todo.editingTodo = todo;

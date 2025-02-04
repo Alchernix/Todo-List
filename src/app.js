@@ -1,12 +1,15 @@
 class Todo {
     static editingTodo = null;
+    static currentId = 0;
 
     constructor(title, description, dueDate, priority) {
+        this.id = Todo.currentId++;
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
         this.isDone = false;
+        this.projectTitle = null;
     }
 }
 
@@ -29,23 +32,12 @@ function addHomeProject() {
     updateHomeProject();
 }
 
-// function updateHomeProject() {
-//     const homeProject = Project.specialProjects[0];
-//     homeProject.todos = [];
-//     const allProjects = JSON.parse(localStorage.getItem("_project")) ? JSON.parse(localStorage.getItem("_project")) : [];
-//     allProjects.forEach((project) => {
-//         homeProject.todos.push(...project.todos);
-//     })
-//     console.log(homeProject, homeProject.todos)
-// }
 function updateHomeProject() {
     const homeProject = Project.specialProjects[0];
     homeProject.todos = [];
-    console.log(Project.projects)
     Project.projects.forEach((project) => {
         homeProject.todos.push(...project.todos);
     });
-    console.log(homeProject, homeProject.todos);
 }
 
 // LocalStorage functions
@@ -66,6 +58,7 @@ function updateProjectsStorage() {
 // todo functions
 function addTodo(title, description, dueDate, priority, project) {
     const todo = new Todo(title, description, dueDate, priority)
+    todo.projectTitle = project.title;
     project.todos.push(todo);
     updateTodosStorage(project);
     updateProjectsStorage();
@@ -78,12 +71,16 @@ function editTodo(title, description, dueDate, priority, project) {
     todo.description = description;
     todo.dueDate = dueDate || todo.dueDate;
     todo.priority = priority;
+    const id = todo.id;
+    const index = project.todos.findIndex((todo) => todo.id == id);
+    project.todos[index] = todo;
     updateTodosStorage(project);
     updateProjectsStorage();
     updateHomeProject()
 }
 
-function deleteTodo(index, project) {
+function deleteTodo(id, project) {
+    const index = project.todos.findIndex((todo) => todo.id == id);
     project.todos.splice(index, 1);
     updateTodosStorage(project);
     updateProjectsStorage();
@@ -91,8 +88,12 @@ function deleteTodo(index, project) {
 }
 
 function loadTodo(project) {
-    const todos = localStorage.getItem(project.title);
-    project.todos = todos ? JSON.parse(todos) : [];
+    if (project.title === "Home") {
+        updateHomeProject();
+    } else {
+        const todos = localStorage.getItem(project.title);
+        project.todos = todos ? JSON.parse(todos) : [];
+    }
 }
 
 

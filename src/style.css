@@ -150,3 +150,7 @@ button {
 .todo-datail {
     text-align: center;
 }
+
+.none {
+    display: none;
+}
