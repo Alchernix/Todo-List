@@ -53,19 +53,26 @@ function displayProject() {
     const specialProjects = Project.specialProjects;
     const projects = loadProject();
     const currentProject = getCurrentProject();
+    const innerHTML = '';
 
-    projectUl.innerHTML = specialProjects.map((project) => `
+    innerHTML = specialProjects.map((project) => `
     <li class="project ${currentProject.title === project.title ? "chosen" : ""}">
     <div class="project-list-project-title">${project.title}</div>
     </li>
     `).join('');
 
-    projectUl.innerHTML += projects.map((project) => `
+    // innerHTML += `
+    // <div></div>
+    // `
+
+    innerHTML += projects.map((project) => `
     <li class="project ${currentProject.title === project.title ? "chosen" : ""}">
     <div class="project-list-project-title">${project.title}</div>
     <i class="fa-solid fa-ellipsis-vertical project-option"></i>
     </li>
     `).join('');
+
+    projectUl.innerHTML = innerHTML;
 
     const li = document.createElement("li");
     const addProjectBtn = document.createElement("button");
