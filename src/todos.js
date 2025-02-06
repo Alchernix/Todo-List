@@ -51,4 +51,11 @@ function deleteTodo(projectId, todoId) {
     dataObj.dataStore();
 }
 
-export { loadTodo, addTodo, editTodo, deleteTodo };
+function toggleDone(projectId, todoId) {
+    const project = dataObj.projects.find((project) => project.id === projectId);
+    const todo = project.todos.find((todo) => todo.id === todoId);
+    todo.isDone = !todo.isDone;
+    dataObj.dataStore();
+}
+
+export { loadTodo, addTodo, editTodo, deleteTodo, toggleDone };

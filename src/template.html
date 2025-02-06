@@ -16,16 +16,19 @@
         <input type="text" placeholder="Search task">
         <ul class="special-project-list" id="special-project-list">
             <li class="special-project" data-id="0">
-                <div>Inbox</div>
-                <div>1</div>
+                <i class="fa-solid fa-inbox"></i>
+                <div class="project-list-project-title">Inbox</div>
+                <div class="notification">1</div>
             </li>
             <li class="special-project" data-id="1">
-                <div>Today</div>
-                <div>1</div>
+                <i class="fa-regular fa-calendar"></i>
+                <div class="project-list-project-title">Today</div>
+                <div class="notification">1</div>
             </li>
             <li class="special-project" data-id="2">
-                <div>This Week</div>
-                <div>1</div>
+                <i class="fa-regular fa-calendar"></i>
+                <div class="project-list-project-title">This Week</div>
+                <div class="notification">1</div>
             </li>
         </ul>
         <div>My Projects</div>
@@ -45,7 +48,7 @@
         <div class="project-title-container">
             <h2 id="project-title">Project Title</h2>
             <i class="fa-solid fa-pen-to-square project-edit-btn" id="project-edit-btn"></i>
-            <button>Delete Project</button>
+            <button class="delete-project-btn" id="delete-project-btn">Delete Project</button>
         </div>
 
         <ul class="todo-list" id="todo-list">

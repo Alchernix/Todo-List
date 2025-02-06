@@ -1,6 +1,6 @@
 import { dataObj } from "./storage";
-import { loadProject, addProject, editProject } from "./projects";
-import { loadTodo, addTodo, editTodo, deleteTodo } from "./todos";
+import { loadProject, addProject, editProject, deleteProject } from "./projects";
+import { loadTodo, addTodo, editTodo, deleteTodo, toggleDone } from "./todos";
 
 const specialProjectList = document.querySelector("#special-project-list");
 const projectList = document.querySelector("#project-list");
@@ -13,6 +13,7 @@ const projectDialogCancelBtn = document.querySelector("#project-dialog-cancel-bt
 
 const projectTitleEl = document.querySelector("#project-title");
 const projectEditBtn = document.querySelector("#project-edit-btn");
+const deleteProjectBtn = document.querySelector("#delete-project-btn");
 const todoListEl = document.querySelector("#todo-list");
 const addTodoBtn = document.querySelector("#todo-add-btn");
 
@@ -38,12 +39,30 @@ function getCurrentProjectId() {
 
 // 사이드바의 프로젝트 리스트를 보여주는 함수 - 특별한 프로젝트들은 html에 있으므로 생략
 function displayProjectList() {
-    projectList.innerHTML = dataObj.projects.slice(3).map((project) => `
-    <li class="project" data-id="${project.id}">
-        <div class="project-list-project-title">${project.title}</div>
-        <div>1</div>
-    </li>
-    `).join('');
+    const notificationEls = document.querySelectorAll(".notification");
+    for (let i = 0; i < 3; i++) {
+        const notification = dataObj.projects[i].todos.reduce((acc, todo) => {
+            return acc + (todo.isDone ? 0 : 1);
+        }, 0);
+        if (!notification) {
+            notificationEls[i].classList.add("none")
+        } else {
+            notificationEls[i].textContent = notification;
+            notificationEls[i].classList.remove("none")
+        }
+    }
+
+    projectList.innerHTML = dataObj.projects.slice(3).map((project) => {
+        const notification = project.todos.reduce((acc, todo) => {
+            return acc + (todo.isDone ? 0 : 1);
+        }, 0);
+        return `
+        <li class="project" data-id="${project.id}">
+            <div class="project-list-project-title">${project.title}</div>
+            <div class="notification ${notification ? "" : "none"}">${notification}</div>
+        </li>
+        `
+    }).join('');
 }
 
 // 메인 화면(프로젝트 제목, 투두리스트)을 보여주는 함수
@@ -52,14 +71,16 @@ function displayMain(projectId) {
     projectTitleEl.textContent = project.title;
     if (projectId === 0 || projectId === 1 || projectId === 2) {
         projectEditBtn.classList.add("none");
+        deleteProjectBtn.classList.add("none");
     } else {
         projectEditBtn.classList.remove("none");
+        deleteProjectBtn.classList.remove("none");
     }
     projectTitleEl.dataset.id = project.id;
     todoListEl.innerHTML = project.todos.map(todo => `
         <li class="todo ${todo.priority}" data-id="${todo.id}">
-            <input type="checkbox" id="">
-            <div>${todo.title}</div>
+            <input type="checkbox" class="todo-checkbox" ${todo.isDone ? "checked" : ""}>
+            <div class="${todo.isDone ? "done" : ""}">${todo.title}</div>
             <div class="duedate">${todo.dueDate}</div>
             <i class="fa-solid fa-pen-to-square todo-edit-btn"></i>
             <i class="fa-solid fa-trash todo-delete-btn"></i>
@@ -98,6 +119,15 @@ projectEditBtn.addEventListener("click", () => {
         projectEditBtn.classList.remove("none");
     });
 
+})
+
+// 프로젝트 삭제 버튼
+deleteProjectBtn.addEventListener("click", () => {
+    const projectId = getCurrentProjectId();
+    deleteProject(projectId);
+    displayProjectList();
+    //인박스 프로젝트로 이동
+    displayMain(0);
 })
 
 // 사이드바 클릭시 해당 프로젝트로 이동하는 함수
@@ -160,7 +190,7 @@ addTodoBtn.addEventListener("click", () => {
     todoDialog.showModal()
 })
 
-// 투두 정보 + 수정버튼 + 삭제버튼
+// 투두 정보 + 수정버튼 + 삭제버튼 + 완료체크
 todoListEl.addEventListener("click", (e) => {
     const todoEl = e.target.closest(".todo");
     const todoId = Number(todoEl.dataset.id);
@@ -200,6 +230,11 @@ todoListEl.addEventListener("click", (e) => {
         // 투두 삭제버튼 클릭시
         deleteTodo(projectId, todoId);
         displayMain(projectId);
+    } else if (e.target.classList.contains("todo-checkbox")) {
+        // 투두 체크박스 클릭시
+        toggleDone(projectId, todoId);
+        displayProjectList();
+        displayMain(projectId);
     } else {
         //그냥 투두 클릭시
         todoDetailTitle.textContent = todo.title;
@@ -226,7 +261,8 @@ todoDialogConfirmBtn.addEventListener("click", () => {
     if (todoDialogConfirmBtn.textContent === "Add") {
         // todo 추가시
         const projectId = Number(todoDialogProjectSelect.value);
-        addTodo(title, description, dueDate, priority, projectId)
+        addTodo(title, description, dueDate, priority, projectId);
+        displayProjectList();
     } else if (todoDialogConfirmBtn.textContent === "Edit") {
         const currentProjectId = getCurrentProjectId();
         const newProjectId = Number(todoDialogProjectSelect.value);

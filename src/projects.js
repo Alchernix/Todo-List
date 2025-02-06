@@ -27,7 +27,7 @@ function editProject(title, projectId) {
     dataObj.dataStore();
 }
 
-function deleteProject() {
+function deleteProject(projectId) {
     const projectIndex = dataObj.projects.findIndex((project) => project.id === projectId);
     dataObj.projects.splice(projectIndex, 1);
     dataObj.dataStore();

@@ -14,6 +14,13 @@ h2 {
     display: none !important;
 }
 
+button,
+input[type=checkbox],
+.project-edit-btn,
+.todo {
+    cursor: pointer;
+}
+
 
 /* sidebar */
 .sidebar {
@@ -33,11 +40,30 @@ h2 {
 .special-project,
 .project {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
 }
 
-.project-list-project-title::before {
+.project-list-project-title {
+    margin-right: auto;
+}
+
+.project-list .project-list-project-title::before {
     content: "#";
+    margin-right: 10px;
+}
+
+.notification {
+    background-color: red;
+    color: white;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* main */
@@ -76,6 +102,11 @@ main {
     border-left: 5px solid;
     padding-left: 10px;
     align-items: center;
+}
+
+.done {
+    color: gray;
+    text-decoration: line-through;
 }
 
 .High {
