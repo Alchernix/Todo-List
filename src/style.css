@@ -10,6 +10,10 @@ h2 {
     margin: 0;
 }
 
+.none {
+    display: none !important;
+}
+
 
 /* sidebar */
 .sidebar {
@@ -48,6 +52,14 @@ main {
 .project-title-container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.project-edit-btn {
+    font-size: 18pt;
+    color: gray;
+    margin-right: auto;
 }
 
 .todo-list {

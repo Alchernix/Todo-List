@@ -16,7 +16,7 @@ if (projects.length === 0) {
     addProject("Today");
     addProject("This Week");
 } else {
-    Project.currentId = dataObj.getnewProjectId();
+    Project.currentId = dataObj.getNewProjectId();
 }
 
 displayProjectList();

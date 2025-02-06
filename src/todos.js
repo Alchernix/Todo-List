@@ -1,10 +1,8 @@
 import { dataObj } from "./storage";
 
 class Todo {
-    static currentId = 0;
-
     constructor(title, description, dueDate, priority, projectId) {
-        this.id = Todo.currentId++;
+        this.id = dataObj.currentTodoId++;
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
@@ -25,20 +23,24 @@ function addTodo(title, description, dueDate, priority, projectId) {
     const todo = new Todo(title, description, dueDate, priority, projectId);
     const project = dataObj.projects.find((project) => project.id === projectId);
     project.todos.push(todo);
-    // dataObj.updateProject(projectId, project.todos);
     dataObj.dataStore();
 }
 
-function editTodo(title, description, dueDate, priority, projectId, todoId) {
-    const project = dataObj.projects.find((project) => project.id === projectId);
+function editTodo(title, description, dueDate, priority, currentProjectId, newProjectId, todoId) {
+    const project = dataObj.projects.find((project) => project.id === currentProjectId);
     const todoIndex = project.todos.findIndex((todo) => todo.id === todoId);
     project.todos[todoIndex].title = title;
     project.todos[todoIndex].description = description;
     project.todos[todoIndex].dueDate = dueDate;
     project.todos[todoIndex].priority = priority;
-    // const editedTodo = new Todo(title, description, dueDate, priority, projectId);
-    // project.todos.splice(todoIndex, 1, editedTodo);
-    // dataObj.updateProject(projectId, project.todos);
+    project.todos[todoIndex].projectId = newProjectId;
+
+    if (currentProjectId !== newProjectId) {
+        const todo = project.todos.splice(todoIndex, 1)[0];
+        const newProject = dataObj.projects.find((project) => project.id === newProjectId);
+        newProject.todos.push(todo);
+    }
+
     dataObj.dataStore();
 }
 
@@ -46,7 +48,6 @@ function deleteTodo(projectId, todoId) {
     const project = dataObj.projects.find((project) => project.id === projectId);
     const todoIndex = project.todos.findIndex((todo) => todo.id === todoId);
     project.todos.splice(todoIndex, 1);
-    // dataObj.updateProject(projectId, project.todos);
     dataObj.dataStore();
 }
 

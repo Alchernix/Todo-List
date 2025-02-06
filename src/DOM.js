@@ -1,6 +1,6 @@
 import { dataObj } from "./storage";
-import { loadProject, addProject } from "./projects";
-import { loadTodo, addTodo } from "./todos";
+import { loadProject, addProject, editProject } from "./projects";
+import { loadTodo, addTodo, editTodo, deleteTodo } from "./todos";
 
 const specialProjectList = document.querySelector("#special-project-list");
 const projectList = document.querySelector("#project-list");
@@ -12,6 +12,7 @@ const projectDialogConfirmBtn = document.querySelector("#project-dialog-confirm-
 const projectDialogCancelBtn = document.querySelector("#project-dialog-cancel-btn");
 
 const projectTitleEl = document.querySelector("#project-title");
+const projectEditBtn = document.querySelector("#project-edit-btn");
 const todoListEl = document.querySelector("#todo-list");
 const addTodoBtn = document.querySelector("#todo-add-btn");
 
@@ -49,18 +50,55 @@ function displayProjectList() {
 function displayMain(projectId) {
     const project = loadProject(projectId);
     projectTitleEl.textContent = project.title;
+    if (projectId === 0 || projectId === 1 || projectId === 2) {
+        projectEditBtn.classList.add("none");
+    } else {
+        projectEditBtn.classList.remove("none");
+    }
     projectTitleEl.dataset.id = project.id;
     todoListEl.innerHTML = project.todos.map(todo => `
         <li class="todo ${todo.priority}" data-id="${todo.id}">
             <input type="checkbox" id="">
             <div>${todo.title}</div>
             <div class="duedate">${todo.dueDate}</div>
-            <i class="fa-solid fa-pen-to-square"></i>
-            <i class="fa-solid fa-trash"></i>
+            <i class="fa-solid fa-pen-to-square todo-edit-btn"></i>
+            <i class="fa-solid fa-trash todo-delete-btn"></i>
         </li>
         `
     ).join('');
+
+    //Today, This Week에는 투두 추가 못하게
+    if (projectId === 1 || projectId === 2) {
+        addTodoBtn.classList.add("none");
+    } else {
+        addTodoBtn.classList.remove("none");
+    }
 }
+
+// 프로젝트 이름 수정 버튼
+projectEditBtn.addEventListener("click", () => {
+    const projectId = getCurrentProjectId();
+    const currentTitle = projectTitleEl.textContent
+    const projectEditInput = document.createElement("input");
+
+    projectEditInput.type = "text";
+    projectEditInput.value = currentTitle;
+    projectTitleEl.classList.add("none");
+    projectEditBtn.classList.add("none");
+    projectTitleEl.after(projectEditInput);
+    projectEditInput.focus();
+
+    projectEditInput.addEventListener("blur", () => {
+        const newTitle = projectEditInput.value.trim() || currentTitle;
+        editProject(newTitle, projectId);
+        displayProjectList();
+        displayMain(projectId);
+        projectEditInput.remove();
+        projectTitleEl.classList.remove("none");
+        projectEditBtn.classList.remove("none");
+    });
+
+})
 
 // 사이드바 클릭시 해당 프로젝트로 이동하는 함수
 specialProjectList.addEventListener("click", (e) => {
@@ -109,30 +147,68 @@ addTodoBtn.addEventListener("click", () => {
     dueDateInput.value = '';
     todoDialogPriorityBtns.forEach(btn => btn.classList.remove("selected"));
     todoDialogPriorityBtns[1].classList.add("selected");
-    todoDialogProjectSelect.innerHTML = dataObj.projects.map((project) => `
-    <option value="${project.id}" ${currentProjectId == project.id ? "selected" : ""}>${project.title}</option>
-    `).join('');
+    todoDialogProjectSelect.innerHTML = dataObj.projects.map((project) => {
+        if (project.id !== 1 && project.id !== 2) {
+            return `
+            <option value="${project.id}" ${currentProjectId == project.id ? "selected" : ""}>${project.title}</option>
+            `
+        } else {
+            return ''
+        }
+    }
+    ).join('');
     todoDialog.showModal()
 })
 
-// 투두 정보 다이어로그
+// 투두 정보 + 수정버튼 + 삭제버튼
 todoListEl.addEventListener("click", (e) => {
     const todoEl = e.target.closest(".todo");
-    if (!todoEl) {
-        return;
-    }
-
     const todoId = Number(todoEl.dataset.id);
-
     const projectId = getCurrentProjectId();
     const todo = loadTodo(projectId, todoId);
 
-    todoDetailTitle.textContent = todo.title;
-    todoDetailDescription.textContent = todo.description;
-    todoDetailDuedate.textContent = todo.dueDate;
-    todoDetailPriority.textContent = todo.priority;
+    if (!todoEl) {
+        return;
+    } else if (e.target.classList.contains("todo-edit-btn")) {
+        // 투두 수정버튼 클릭시
+        const currentProjectId = getCurrentProjectId();
+        todoDialog.dataset.id = todo.id; //수정중인 투두를 구분하기 위해 추가
+        todoDialogConfirmBtn.textContent = "Edit";
+        titleInput.value = todo.title;
+        descriptionInput.value = todo.description;
+        dueDateInput.value = todo.dueDate;
+        todoDialogPriorityBtns.forEach(btn => btn.classList.remove("selected"));
+        if (todo.priority === "High") {
+            todoDialogPriorityBtns[0].classList.add("selected");
+        } else if (todo.priority === "Medium") {
+            todoDialogPriorityBtns[1].classList.add("selected");
+        } else if (todo.priority === "Low") {
+            todoDialogPriorityBtns[2].classList.add("selected");
+        }
+        todoDialogProjectSelect.innerHTML = dataObj.projects.map((project) => {
+            if (project.id !== 1 && project.id !== 2) {
+                return `
+                <option value="${project.id}" ${currentProjectId == project.id ? "selected" : ""}>${project.title}</option>
+                `
+            } else {
+                return ''
+            }
+        }
+        ).join('');
+        todoDialog.showModal();
+    } else if (e.target.classList.contains("todo-delete-btn")) {
+        // 투두 삭제버튼 클릭시
+        deleteTodo(projectId, todoId);
+        displayMain(projectId);
+    } else {
+        //그냥 투두 클릭시
+        todoDetailTitle.textContent = todo.title;
+        todoDetailDescription.textContent = todo.description;
+        todoDetailDuedate.textContent = todo.dueDate;
+        todoDetailPriority.textContent = todo.priority;
 
-    todoDetailDialog.showModal()
+        todoDetailDialog.showModal()
+    }
 })
 
 todoDetailDialogCloseBtn.addEventListener("click", () => {
@@ -145,15 +221,19 @@ todoDialogConfirmBtn.addEventListener("click", () => {
     const description = descriptionInput.value;
     const dueDate = dueDateInput.value;
     const priority = document.querySelector(".selected").textContent;
-    const projectId = Number(todoDialogProjectSelect.value);
+
+
     if (todoDialogConfirmBtn.textContent === "Add") {
         // todo 추가시
+        const projectId = Number(todoDialogProjectSelect.value);
         addTodo(title, description, dueDate, priority, projectId)
-        displayMain(getCurrentProjectId());
-
     } else if (todoDialogConfirmBtn.textContent === "Edit") {
-        // todo 수정시
+        const currentProjectId = getCurrentProjectId();
+        const newProjectId = Number(todoDialogProjectSelect.value);
+        const todoId = Number(todoDialog.dataset.id);
+        editTodo(title, description, dueDate, priority, currentProjectId, newProjectId, todoId);
     }
+    displayMain(getCurrentProjectId());
     todoDialog.close();
 })
 
