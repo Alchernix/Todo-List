@@ -1,3 +1,4 @@
+import { format } from "date-fns"
 import { dataObj } from "./storage";
 import { loadProject, addProject, editProject, deleteProject } from "./projects";
 import { loadTodo, addTodo, editTodo, deleteTodo, toggleDone } from "./todos";
@@ -18,6 +19,7 @@ const todoListEl = document.querySelector("#todo-list");
 const addTodoBtn = document.querySelector("#todo-add-btn");
 
 const todoDialog = document.querySelector("#todo-dialog");
+const todoDialogForm = document.querySelector("#todo-dialog-form");
 const titleInput = document.querySelector("#input-todo-title");
 const descriptionInput = document.querySelector("#input-todo-description");
 const dueDateInput = document.querySelector("#input-todo-duedate");
@@ -76,12 +78,13 @@ function displayMain(projectId) {
         projectEditBtn.classList.remove("none");
         deleteProjectBtn.classList.remove("none");
     }
+
     projectTitleEl.dataset.id = project.id;
     todoListEl.innerHTML = project.todos.map(todo => `
         <li class="todo ${todo.priority}" data-id="${todo.id}">
             <input type="checkbox" class="todo-checkbox" ${todo.isDone ? "checked" : ""}>
             <div class="${todo.isDone ? "done" : ""}">${todo.title}</div>
-            <div class="duedate">${todo.dueDate}</div>
+            <div class="duedate">${format(todo.dueDate, 'yyyy-MM-dd')}</div>
             <i class="fa-solid fa-pen-to-square todo-edit-btn"></i>
             <i class="fa-solid fa-trash todo-delete-btn"></i>
         </li>
@@ -142,7 +145,7 @@ specialProjectList.addEventListener("click", (e) => {
 
 projectList.addEventListener("click", (e) => {
     const projectEl = e.target.closest(".project");
-    console.log(projectEl)
+
     if (!projectEl) {
         return;
     }
@@ -206,7 +209,7 @@ todoListEl.addEventListener("click", (e) => {
         todoDialogConfirmBtn.textContent = "Edit";
         titleInput.value = todo.title;
         descriptionInput.value = todo.description;
-        dueDateInput.value = todo.dueDate;
+        dueDateInput.value = format(todo.dueDate, 'yyyy-MM-dd');
         todoDialogPriorityBtns.forEach(btn => btn.classList.remove("selected"));
         if (todo.priority === "High") {
             todoDialogPriorityBtns[0].classList.add("selected");
@@ -218,7 +221,7 @@ todoListEl.addEventListener("click", (e) => {
         todoDialogProjectSelect.innerHTML = dataObj.projects.map((project) => {
             if (project.id !== 1 && project.id !== 2) {
                 return `
-                <option value="${project.id}" ${currentProjectId == project.id ? "selected" : ""}>${project.title}</option>
+                <option value="${project.id}" ${todo.projectId == project.id ? "selected" : ""}>${project.title}</option>
                 `
             } else {
                 return ''
@@ -236,10 +239,10 @@ todoListEl.addEventListener("click", (e) => {
         displayProjectList();
         displayMain(projectId);
     } else {
-        //그냥 투두 클릭시
+        //그냥 투두 클릭시 - 투두 정보 다이어로그 띄우기
         todoDetailTitle.textContent = todo.title;
         todoDetailDescription.textContent = todo.description;
-        todoDetailDuedate.textContent = todo.dueDate;
+        todoDetailDuedate.textContent = format(todo.dueDate, 'yyyy-MM-dd');
         todoDetailPriority.textContent = todo.priority;
 
         todoDetailDialog.showModal()
@@ -251,12 +254,12 @@ todoDetailDialogCloseBtn.addEventListener("click", () => {
 })
 
 // 투두 추가/수정 다이어로그
-todoDialogConfirmBtn.addEventListener("click", () => {
+todoDialogForm.addEventListener("submit", (e) => {
+    e.preventDefault();
     const title = titleInput.value;
     const description = descriptionInput.value;
     const dueDate = dueDateInput.value;
     const priority = document.querySelector(".selected").textContent;
-
 
     if (todoDialogConfirmBtn.textContent === "Add") {
         // todo 추가시
@@ -264,6 +267,7 @@ todoDialogConfirmBtn.addEventListener("click", () => {
         addTodo(title, description, dueDate, priority, projectId);
         displayProjectList();
     } else if (todoDialogConfirmBtn.textContent === "Edit") {
+        // todo 수정시
         const currentProjectId = getCurrentProjectId();
         const newProjectId = Number(todoDialogProjectSelect.value);
         const todoId = Number(todoDialog.dataset.id);

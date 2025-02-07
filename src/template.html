@@ -69,7 +69,7 @@
         <button id="project-dialog-cancel-btn">Cancel</button>
     </dialog>
     <dialog class="todo-dialog" id="todo-dialog">
-        <div class="todo-dialog-container">
+        <form class="todo-dialog-container" id="todo-dialog-form">
             <label for="input-todo-title">Title: </label>
             <input type="text" id="input-todo-title" required>
 
@@ -81,9 +81,9 @@
 
             <div>Priority</div>
             <div class="priority-btn-container">
-                <button class="priority-btn">High</button>
-                <button class="priority-btn selected">Medium</button>
-                <button class="priority-btn">Low</button>
+                <button class="priority-btn" type="button">High</button>
+                <button class="priority-btn selected" type="button">Medium</button>
+                <button class="priority-btn" type="button">Low</button>
             </div>
 
             <label for="project-select">Project: </label>
@@ -92,8 +92,8 @@
             </select>
 
             <button id="todo-dialog-confirm-btn">Confirm</button>
-            <button id="todo-dialog-cancel-btn">Cancel</button>
-        </div>
+            <button id="todo-dialog-cancel-btn" type="button">Cancel</button>
+        </form>
     </dialog>
     <dialog class="todo-detail-dialog" id="todo-detail-dialog">
         <div class="todo-datail-dialog-container">

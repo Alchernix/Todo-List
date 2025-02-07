@@ -5,7 +5,6 @@ import { addProject, Project } from "./projects";
 import { displayMain, displayProjectList } from "./DOM";
 
 const INBOX_ID = 0;
-const TODAY_ID = 1;
 const THIS_WEEK_ID = 2;
 
 // 새로고침 시 데이터 오브젝트를 로드;
