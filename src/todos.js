@@ -14,11 +14,19 @@ class Todo {
     }
 }
 
-//로컬스토리지에서 특정 투두를 불러오는 함수 -> 투두의 세부사항을 볼 때 사용
-function loadTodo(projectId, todoId) {
-    const project = dataObj.projects.find((project) => project.id === projectId);
-    const todo = project.todos.find((todo) => todo.id === todoId);
-    return todo;
+//로컬스토리지에서 특정 투두를 불러오는 함수
+function searchTodoById(todoId) {
+    let result = null;
+    dataObj.projects.forEach((project) => {
+        if (project.id !== 1 && project.id !== 2) {
+            project.todos.forEach((todo) => {
+                if (todo.id === todoId) {
+                    result = todo;
+                }
+            });
+        }
+    })
+    return result;
 }
 
 function addTodo(title, description, dueDate, priority, projectId) {
@@ -80,4 +88,4 @@ function toggleDone(projectId, todoId) {
     updateTodayProject();
 }
 
-export { loadTodo, addTodo, editTodo, deleteTodo, toggleDone };
+export { searchTodoById, addTodo, editTodo, deleteTodo, toggleDone };

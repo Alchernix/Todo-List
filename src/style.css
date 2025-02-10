@@ -24,8 +24,14 @@ input[type=checkbox],
 
 /* sidebar */
 .sidebar {
+    flex: none;
+    width: 170px;
     background-color: whitesmoke;
     padding: 20px;
+}
+
+.sidebar-search {
+    margin-top: 20px;
 }
 
 .special-project-list,
@@ -37,6 +43,14 @@ input[type=checkbox],
     gap: 10px;
 }
 
+.special-project-list {
+    margin: 10px 0 20px 0;
+}
+
+.project-list {
+    margin: 10px 0;
+}
+
 .special-project,
 .project {
     display: flex;
@@ -44,6 +58,11 @@ input[type=checkbox],
     align-items: center;
     gap: 10px;
     cursor: pointer;
+}
+
+.special-project:hover,
+.project:hover {
+    background-color: #bbb;
 }
 
 .project-list-project-title {
@@ -67,7 +86,8 @@ input[type=checkbox],
 }
 
 /* main */
-main {
+main,
+.search-section {
     box-sizing: border-box;
     padding: 20px;
     display: flex;
@@ -180,3 +200,5 @@ main {
 .todo-datail {
     text-align: center;
 }
+
+/* search tab */

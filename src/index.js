@@ -3,6 +3,7 @@ import "./style.css";
 import { dataObj } from "./storage";
 import { addProject, Project } from "./projects";
 import { displayMain, displayProjectList } from "./DOM";
+import { } from "./utility";
 
 const INBOX_ID = 0;
 const THIS_WEEK_ID = 2;

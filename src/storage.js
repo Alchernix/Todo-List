@@ -3,6 +3,7 @@
 const dataObj = {
     projects: [],
     currentTodoId: 0,
+    searchResult: [],
     //로컬스토리지에서 데이터를 불러오는 메서드
     loadDataObj() {
         const data = JSON.parse(localStorage.getItem("_data")) || [];

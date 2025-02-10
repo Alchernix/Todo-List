@@ -13,7 +13,10 @@
 <body>
     <div class="sidebar">
         <h1>Todo List</h1>
-        <input type="text" placeholder="Search task">
+        <div class="special-project sidebar-search" id="sidebar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <div>Search</div>
+        </div>
         <ul class="special-project-list" id="special-project-list">
             <li class="special-project" data-id="0">
                 <i class="fa-solid fa-inbox"></i>
@@ -33,18 +36,20 @@
         </ul>
         <div>My Projects</div>
         <ul class="project-list" id="project-list">
-            <!-- <li class="project">
-                <div class="project-list-project-title">Project1</div>
-                <div>1</div>
-            </li>
-            <li class="project">
-                <div class="project-list-project-title">Project2</div>
-                <div>5</div>
-            </li> -->
         </ul>
         <button id="add-project-btn">+Add New Project</button>
     </div>
-    <main>
+
+    <section id="search-section" class="search-section none">
+        <div class="search-input-container">
+            <input type="text" id="search-input" placeholder="Enter task name">
+            <button id="search-btn">Search</button>
+        </div>
+        <ul class="todo-list search-result" id="search-result">
+        </ul>
+    </section>
+
+    <main id="main">
         <div class="project-title-container">
             <h2 id="project-title">Project Title</h2>
             <i class="fa-solid fa-pen-to-square project-edit-btn" id="project-edit-btn"></i>
@@ -52,13 +57,6 @@
         </div>
 
         <ul class="todo-list" id="todo-list">
-            <!-- <li class="todo">
-                <input type="checkbox" id="">
-                <div>Task1</div>
-                <div>2025-01-01</div>
-                <button>E</button>
-                <button>D</button>
-            </li> -->
         </ul>
         <button id="todo-add-btn">+</button>
     </main>
