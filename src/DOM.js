@@ -2,7 +2,7 @@ import { format } from "date-fns"
 import { dataObj } from "./storage";
 import { loadProject, addProject, editProject, deleteProject } from "./projects";
 import { searchTodoById, addTodo, editTodo, deleteTodo, toggleDone } from "./todos";
-import { search, resetSearchSection, sortTodos } from "./utility";
+import { search, resetSearchSection, sortTodos, displaySearchResult } from "./utility";
 
 const mainEl = document.querySelector("#main");
 const searchSection = document.querySelector("#search-section");
@@ -18,6 +18,9 @@ const projectDialogConfirmBtn = document.querySelector("#project-dialog-confirm-
 const projectDialogCancelBtn = document.querySelector("#project-dialog-cancel-btn");
 
 const sortByTextEl = document.querySelector("#sort-by");
+
+const showAllBtn = document.querySelector("#show-all-btn");
+const showIncompleteBtn = document.querySelector("#show-incomplete-btn");
 
 const projectTitleEl = document.querySelector("#project-title");
 const projectEditBtn = document.querySelector("#project-edit-btn");
@@ -100,15 +103,34 @@ function displayMain(projectId) {
     sortTodos(projectId);
 
     projectTitleEl.dataset.id = project.id;
-    todoListEl.innerHTML = project.todos.map(todo => `
-        <li class="todo ${todo.priority}" data-id="${todo.id}">
-            <input type="checkbox" class="todo-checkbox" ${todo.isDone ? "checked" : ""}>
-            <div class="${todo.isDone ? "done" : ""}">${todo.title}</div>
-            <div class="duedate">${format(todo.dueDate, 'yyyy-MM-dd')}</div>
-            <i class="fa-solid fa-pen-to-square todo-edit-btn"></i>
-            <i class="fa-solid fa-trash todo-delete-btn"></i>
-        </li>
-        `
+    todoListEl.innerHTML = project.todos.map(todo => {
+        if (showAllBtn.classList.contains("sort-selected")) {
+            return `
+            <li class="todo ${todo.priority}" data-id="${todo.id}">
+                <input type="checkbox" class="todo-checkbox" ${todo.isDone ? "checked" : ""}>
+                <div class="${todo.isDone ? "done" : ""}">${todo.title}</div>
+                <div class="duedate">${format(todo.dueDate, 'yyyy-MM-dd')}</div>
+                <i class="fa-solid fa-pen-to-square todo-edit-btn"></i>
+                <i class="fa-solid fa-trash todo-delete-btn"></i>
+            </li>
+            `
+        } else {
+            if (!todo.isDone) {
+                return `
+                <li class="todo ${todo.priority}" data-id="${todo.id}">
+                    <input type="checkbox" class="todo-checkbox" ${todo.isDone ? "checked" : ""}>
+                    <div class="${todo.isDone ? "done" : ""}">${todo.title}</div>
+                    <div class="duedate">${format(todo.dueDate, 'yyyy-MM-dd')}</div>
+                    <i class="fa-solid fa-pen-to-square todo-edit-btn"></i>
+                    <i class="fa-solid fa-trash todo-delete-btn"></i>
+                </li>
+                `
+            } else {
+                return ''
+            }
+        }
+
+    }
     ).join('');
 
     //Today, This Week에는 투두 추가 못하게
@@ -275,6 +297,8 @@ function todoClickEvent(e) {
         console.log(currentProjectId)
         if (currentProjectId !== "search") {
             displayMain(currentProjectId);
+        } else {
+            displaySearchResult(dataObj.searchResult);
         }
     } else {
         //그냥 투두 클릭시 - 투두 정보 다이어로그 띄우기

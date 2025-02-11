@@ -14,6 +14,9 @@ const mainEl = document.querySelector("#main");
 const sortBtn = document.querySelector("#sort-container");
 const sortByTextEl = document.querySelector("#sort-by");
 
+const showAllBtn = document.querySelector("#show-all-btn");
+const showIncompleteBtn = document.querySelector("#show-incomplete-btn");
+
 
 // 검색
 searchEl.addEventListener("click", () => {
@@ -120,5 +123,21 @@ function sortAllTodosByAdded() {
     })
 
 }
+
+
 // 필터
-export { search, resetSearchSection, sortTodos, sortAllTodosByAdded };
+showAllBtn.addEventListener("click", () => {
+    showIncompleteBtn.classList.remove("sort-selected");
+    showAllBtn.classList.add("sort-selected");
+    const projectId = getCurrentProjectId();
+    displayMain(projectId);
+})
+
+showIncompleteBtn.addEventListener("click", () => {
+    showAllBtn.classList.remove("sort-selected");
+    showIncompleteBtn.classList.add("sort-selected");
+    const projectId = getCurrentProjectId();
+    displayMain(projectId);
+})
+
+export { search, resetSearchSection, sortTodos, sortAllTodosByAdded, displaySearchResult };

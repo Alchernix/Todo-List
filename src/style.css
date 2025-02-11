@@ -125,6 +125,15 @@ main,
     gap: 10px;
 }
 
+.filter-container div {
+    color: gray;
+}
+
+.filter-container .sort-selected {
+    color: black;
+    /* font-weight: bold; */
+}
+
 .todo-list {
     padding: 0;
     list-style-type: none;
