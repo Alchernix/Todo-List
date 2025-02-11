@@ -2,7 +2,7 @@ import { format } from "date-fns"
 import { dataObj } from "./storage";
 import { loadProject, addProject, editProject, deleteProject } from "./projects";
 import { searchTodoById, addTodo, editTodo, deleteTodo, toggleDone } from "./todos";
-import { search, resetSearchSection } from "./utility";
+import { search, resetSearchSection, sortTodos } from "./utility";
 
 const mainEl = document.querySelector("#main");
 const searchSection = document.querySelector("#search-section");
@@ -16,6 +16,8 @@ const projectDialog = document.querySelector("#project-dialog");
 const projectTitleInput = document.querySelector("#input-project-title");
 const projectDialogConfirmBtn = document.querySelector("#project-dialog-confirm-btn");
 const projectDialogCancelBtn = document.querySelector("#project-dialog-cancel-btn");
+
+const sortByTextEl = document.querySelector("#sort-by");
 
 const projectTitleEl = document.querySelector("#project-title");
 const projectEditBtn = document.querySelector("#project-edit-btn");
@@ -95,6 +97,8 @@ function displayMain(projectId) {
         deleteProjectBtn.classList.remove("none");
     }
 
+    sortTodos(projectId);
+
     projectTitleEl.dataset.id = project.id;
     todoListEl.innerHTML = project.todos.map(todo => `
         <li class="todo ${todo.priority}" data-id="${todo.id}">
@@ -158,6 +162,8 @@ specialProjectList.addEventListener("click", (e) => {
         return;
     }
     const projectId = Number(projectEl.dataset.id);
+    sortByTextEl.textContent = "Added";
+    sortTodos(projectId);
     displayMain(projectId);
 })
 
@@ -330,4 +336,4 @@ todoDialogCancelBtn.addEventListener("click", () => {
 
 
 
-export { displayMain, displayProjectList };
+export { displayMain, displayProjectList, getCurrentProjectId };

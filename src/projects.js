@@ -1,6 +1,7 @@
 import { addDays, isToday, isWithinInterval, startOfDay } from "date-fns";
 import { dataObj } from "./storage";
 import { displayProjectList } from "./DOM";
+import { sortTodos } from "./utility";
 
 class Project {
     static currentId = 0;
@@ -56,8 +57,9 @@ function updateTodayProject() {
             })
         }
     })
-
-    displayProjectList(); //투데이에 몇개 남았는데 업데이트
+    // sortTodos(1);
+    // sortTodos(2);
+    displayProjectList(); //투데이에 몇개 남았는지 업데이트
     dataObj.dataStore();
 }
 

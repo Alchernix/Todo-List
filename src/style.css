@@ -17,6 +17,9 @@ h2 {
 button,
 input[type=checkbox],
 .project-edit-btn,
+.sort-container,
+#show-all-btn,
+#show-incomplete-btn,
 .todo {
     cursor: pointer;
 }
@@ -106,6 +109,20 @@ main,
     font-size: 18pt;
     color: gray;
     margin-right: auto;
+}
+
+.utility-bar {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid gray;
+}
+
+.sort-container,
+.filter-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .todo-list {

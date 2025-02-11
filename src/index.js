@@ -1,9 +1,9 @@
 import "./style.css";
 
 import { dataObj } from "./storage";
-import { addProject, Project } from "./projects";
+import { addProject, Project, updateTodayProject } from "./projects";
 import { displayMain, displayProjectList } from "./DOM";
-import { } from "./utility";
+import { sortAllTodosByAdded } from "./utility";
 
 const INBOX_ID = 0;
 const THIS_WEEK_ID = 2;
@@ -19,5 +19,7 @@ if (projects.length === 0) {
     Project.currentId = dataObj.getNewProjectId();
 }
 
-displayProjectList();
+// displayProjectList();
+sortAllTodosByAdded();
+updateTodayProject();
 displayMain(INBOX_ID);
