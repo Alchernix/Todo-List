@@ -46,6 +46,10 @@ const todoDetailDuedate = document.querySelector("#todo-detail-duedate");
 const todoDetailPriority = document.querySelector("#todo-detail-priority");
 const todoDetailDialogCloseBtn = document.querySelector("#todo-datail-close-btn");
 
+const menuBtn = document.querySelector("#menu-btn");
+const menuBtn2 = document.querySelector("#menu-btn2");
+const sidebar = document.querySelector("#sidebar");
+
 function getCurrentProjectId() {
     let currentProjectId = projectTitleEl.dataset.id;
     if (currentProjectId !== "search") {
@@ -364,6 +368,31 @@ todoDialogCancelBtn.addEventListener("click", () => {
     todoDialog.close();
 })
 
+
+// 메뉴 버튼
+menuBtn.addEventListener("click", () => {
+    sidebar.style.display = "block";
+    setTimeout(() => {
+        document.addEventListener("click", closeSidebar);
+    }, 0);
+})
+
+menuBtn2.addEventListener("click", () => {
+    sidebar.style.display = "block";
+    setTimeout(() => {
+        document.addEventListener("click", closeSidebar);
+    }, 0);
+})
+
+function closeSidebar(e) {
+    if (e.target.id !== "sidebar"
+        && e.target.id !== "main-title"
+        && e.target.id !== "my-projects"
+    ) {
+        sidebar.style.display = "none";
+        document.removeEventListener("click", closeSidebar);
+    }
+}
 
 
 export { displayMain, displayProjectList, getCurrentProjectId };

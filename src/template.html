@@ -14,8 +14,12 @@
 </head>
 
 <body>
-    <div class="sidebar">
-        <h1>Todo List</h1>
+    <div class="sidebar" id="sidebar">
+        <div class="main-title-container">
+            <i class="fa-solid fa-bars menu-btn"></i>
+            <h1 id="main-title">Todo List</h1>
+        </div>
+        
         <div class="special-project sidebar-search" id="sidebar-search">
             <i class="fa-solid fa-magnifying-glass"></i>
             <div>Search</div>
@@ -37,7 +41,7 @@
                 <div class="notification">1</div>
             </li>
         </ul>
-        <div class="bold">My Projects</div>
+        <div class="bold" id="my-projects">My Projects</div>
         <ul class="project-list" id="project-list">
         </ul>
         <button id="add-project-btn" class="add-project-btn"><i class="fa-solid fa-plus"></i>Add New Project</button>
@@ -45,6 +49,7 @@
 
     <section id="search-section" class="search-section none">
         <div class="search-input-container">
+            <i class="fa-solid fa-bars menu-btn" id="menu-btn2"></i>
             <input type="text" id="search-input" class="search-input" placeholder="Enter task name">
             <button id="search-btn" class="search-btn">Search</button>
         </div>
@@ -54,6 +59,7 @@
 
     <main id="main">
         <div class="project-title-container">
+            <i class="fa-solid fa-bars menu-btn" id="menu-btn"></i>
             <h2 id="project-title">Project Title</h2>
             <i class="fa-solid fa-pen-to-square project-edit-btn" id="project-edit-btn"></i>
             <button class="delete-project-btn" id="delete-project-btn">Delete Project</button>
