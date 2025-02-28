@@ -48,11 +48,11 @@
     </div>
 
     <section id="search-section" class="search-section none">
-        <div class="search-input-container">
+        <form class="search-input-container">
             <i class="fa-solid fa-bars menu-btn" id="menu-btn2"></i>
-            <input type="text" id="search-input" class="search-input" placeholder="Enter task name">
+            <input type="text" id="search-input" class="search-input" placeholder="Enter task name" required>
             <button id="search-btn" class="search-btn">Search</button>
-        </div>
+        </form>
         <ul class="todo-list search-result" id="search-result">
         </ul>
     </section>
@@ -82,11 +82,14 @@
         <button id="todo-add-btn" class="todo-add-btn"><i class="fa-solid fa-plus"></i> Add New Task</button>
     </main>
     <dialog class="project-dialog" id="project-dialog">
-        <form id="project-dialog-form">
+        <form id="project-dialog-form" class="project-dialog-container">
             <label for="input-project-title">Title: </label>
             <input type="text" id="input-project-title" required>
-            <button type="submit" id="project-dialog-confirm-btn">Add</button>
-            <button type="button" id="project-dialog-cancel-btn">Cancel</button>    
+            <div class="btn-container">
+                <button type="button" id="project-dialog-cancel-btn">Cancel</button>
+                <button type="submit" id="project-dialog-confirm-btn">Add</button>
+            </div>
+                
         </form>
         
     </dialog>
@@ -112,9 +115,11 @@
             <select id="project-select">
                 <!-- <option value="Inbox">Inbox</option> -->
             </select>
-
-            <button id="todo-dialog-confirm-btn">Confirm</button>
-            <button id="todo-dialog-cancel-btn" type="button">Cancel</button>
+            <div class="btn-container">
+                <button id="todo-dialog-cancel-btn" type="button">Cancel</button>
+                <button id="todo-dialog-confirm-btn">Confirm</button>
+            </div>
+            
         </form>
     </dialog>
     <dialog class="todo-detail-dialog" id="todo-detail-dialog">

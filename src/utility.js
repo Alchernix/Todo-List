@@ -23,9 +23,13 @@ searchEl.addEventListener("click", () => {
     mainEl.classList.add("none")
     projectTitleEl.dataset.id = "search";
     searchSection.classList.remove("none");
-
-    document.querySelector("#search-btn").addEventListener("click", search);
+    // document.querySelector("#search-btn").addEventListener("click", search);
 })
+
+searchSection.addEventListener("submit", (e) => {
+    e.preventDefault();
+    search();
+});
 
 function search() {
     const searchValue = searchInput.value.toLowerCase();

@@ -39,7 +39,8 @@ input[type="checkbox"],
 
 .sidebar {
     z-index: 1;
-    width: 170px;
+    width: 30%;
+    max-width: 200px;
     background-color: whitesmoke;
     padding: 20px;
 }
@@ -126,6 +127,8 @@ main,
 }
 
 .menu-btn {
+    position: relative;
+    /* top: 10px; */
     font-size: 16pt;
     cursor: pointer;
     display: none;
@@ -139,7 +142,8 @@ main,
 }
 
 .delete-project-btn,
-.search-btn {
+.search-btn,
+dialog button {
     background-color: white;
     padding: 5px 10px;
     border: 1px solid #c4c4c4;
@@ -147,7 +151,8 @@ main,
 }
 
 .delete-project-btn:hover,
-.search-btn:hover {
+.search-btn:hover,
+dialog button:hover {
     background-color: #eee;
 }
 
@@ -231,8 +236,20 @@ main,
 
 /* ===== Dialogs ===== */
 /* Project Dialog */
-.todo-datail-dialog-container {
+
+dialog {
     width: 400px;
+    border-radius: 20px;
+    border: none;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.project-dialog-container {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -240,7 +257,6 @@ main,
 
 /* Todo Dialog */
 .todo-dialog-container {
-    width: 400px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -260,9 +276,6 @@ main,
 }
 
 /* Todo Detail Dialog */
-.todo-detail-dialog {
-    width: 400px;
-}
 
 .todo-datail-dialog-container {
     display: flex;
@@ -281,7 +294,7 @@ main,
 }
 
 .todo-datail {
-    text-align: center;
+    text-align: right;
 }
 
 /* ===== Search Tab ===== */
@@ -290,6 +303,7 @@ main,
     display: flex;
     gap: 10px;
     align-items: center;
+    margin-top: 10px;
 }
 
 .search-input {
@@ -303,7 +317,7 @@ main,
     }
 
     dialog {
-        width: 100%;
+        width: 80%;
     }
 
     .sidebar {
