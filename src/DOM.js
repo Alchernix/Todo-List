@@ -82,6 +82,7 @@ function displayProjectList() {
         }, 0);
         return `
         <li class="project" data-id="${project.id}">
+            <i class="fa-solid fa-hashtag"></i>
             <div class="project-list-project-title">${project.title}</div>
             <div class="notification ${notification ? "" : "none"}">${notification}</div>
         </li>
@@ -169,11 +170,13 @@ projectEditBtn.addEventListener("click", () => {
 
 // 프로젝트 삭제 버튼
 deleteProjectBtn.addEventListener("click", () => {
-    const projectId = getCurrentProjectId();
-    deleteProject(projectId);
-    displayProjectList();
-    //인박스 프로젝트로 이동
-    displayMain(0);
+    if (confirm("Are you sure you want to delete the project? All associated to-dos will be deleted.")) {
+        const projectId = getCurrentProjectId();
+        deleteProject(projectId);
+        displayProjectList();
+        //인박스 프로젝트로 이동
+        displayMain(0);
+    }
 })
 
 // 사이드바 클릭시 해당 프로젝트로 이동하는 함수
