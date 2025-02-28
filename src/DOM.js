@@ -198,6 +198,7 @@ projectList.addEventListener("click", (e) => {
         return;
     }
     const projectId = Number(projectEl.dataset.id);
+    sortByTextEl.textContent = "Added";
     displayMain(projectId);
 })
 
@@ -294,7 +295,6 @@ function todoClickEvent(e) {
         // 투두 체크박스 클릭시
         toggleDone(projectId, todoId);
         displayProjectList();
-        console.log(currentProjectId)
         if (currentProjectId !== "search") {
             displayMain(currentProjectId);
         } else {
