@@ -73,10 +73,13 @@
         <button id="todo-add-btn">+</button>
     </main>
     <dialog class="project-dialog" id="project-dialog">
-        <label for="input-project-title">Title: </label>
-        <input type="text" id="input-project-title" required>
-        <button id="project-dialog-confirm-btn">Add</button>
-        <button id="project-dialog-cancel-btn">Cancel</button>
+        <form id="project-dialog-form">
+            <label for="input-project-title">Title: </label>
+            <input type="text" id="input-project-title" required>
+            <button type="submit" id="project-dialog-confirm-btn">Add</button>
+            <button type="button" id="project-dialog-cancel-btn">Cancel</button>    
+        </form>
+        
     </dialog>
     <dialog class="todo-dialog" id="todo-dialog">
         <form class="todo-dialog-container" id="todo-dialog-form">

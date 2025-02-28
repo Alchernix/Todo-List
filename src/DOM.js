@@ -14,13 +14,14 @@ const addProjectBtn = document.querySelector("#add-project-btn");
 
 const projectDialog = document.querySelector("#project-dialog");
 const projectTitleInput = document.querySelector("#input-project-title");
-const projectDialogConfirmBtn = document.querySelector("#project-dialog-confirm-btn");
+const projectDialogForm = document.querySelector("#project-dialog-form");
+// const projectDialogConfirmBtn = document.querySelector("#project-dialog-confirm-btn");
 const projectDialogCancelBtn = document.querySelector("#project-dialog-cancel-btn");
 
 const sortByTextEl = document.querySelector("#sort-by");
 
 const showAllBtn = document.querySelector("#show-all-btn");
-const showIncompleteBtn = document.querySelector("#show-incomplete-btn");
+// const showIncompleteBtn = document.querySelector("#show-incomplete-btn");
 
 const projectTitleEl = document.querySelector("#project-title");
 const projectEditBtn = document.querySelector("#project-edit-btn");
@@ -204,11 +205,13 @@ projectList.addEventListener("click", (e) => {
 
 // 프로젝트 추가 버튼
 addProjectBtn.addEventListener("click", () => {
+    projectTitleInput.value = '';
     projectDialog.showModal();
 })
 
 // 프로젝트 추가 다이어로그
-projectDialogConfirmBtn.addEventListener("click", () => {
+projectDialogForm.addEventListener("submit", (e) => {
+    e.preventDefault();
     const title = projectTitleInput.value;
     const projectId = addProject(title);
     displayMain(projectId);
