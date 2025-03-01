@@ -272,7 +272,7 @@ dialog {
 }
 
 .priority-btn.selected {
-    background-color: aquamarine;
+    background-color: #ddd;
 }
 
 /* Todo Detail Dialog */
@@ -311,9 +311,29 @@ dialog {
     padding: 5px 0;
 }
 
+.no-search-result {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: gray;
+}
+
 @media only screen and (max-width: 480px) {
     body {
         height: 100dvh;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .main-title-container {
+        margin-top: 10px;
+    }
+
+    .search-input-container {
+        height: 32px;
     }
 
     dialog {

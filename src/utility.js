@@ -52,8 +52,14 @@ function search() {
 }
 
 function displaySearchResult(result) {
-    searchResultEl.innerHTML = result.map((todo) => {
-        return `
+    if (result.length === 0) {
+        searchResultEl.innerHTML = `
+        <li class="no-search-result">
+            No search results found :(
+        </li>`
+    } else {
+        searchResultEl.innerHTML = result.map((todo) => {
+            return `
         <li class="todo ${todo.priority}" data-id="${todo.id}">
             <input type="checkbox" class="todo-checkbox" ${todo.isDone ? "checked" : ""}>
             <div class="${todo.isDone ? "done" : ""}">${todo.title}</div>
@@ -62,7 +68,8 @@ function displaySearchResult(result) {
             <i class="fa-solid fa-trash todo-delete-btn"></i>
         </li>
         `
-    }).join('');
+        }).join('');
+    }
 }
 
 function resetSearchSection() {
