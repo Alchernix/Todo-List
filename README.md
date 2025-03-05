@@ -1,4 +1,5 @@
 # 투두리스트 프로젝트
+서비스 링크: https://alchernix.github.io/Todo-List/ <br>
 프론트엔드 실습용으로 만든 할일 관리 사이트입니다.<br>
 코드는 main 브런치에서 볼 수 있습니다.<br>
 ## 프로젝트 소개
